@@ -1,5 +1,38 @@
 import chess
 
+"""
+Basic evaluation function , going to count the material on each side and then evaluate the position 
+
+at a certain depth (number of moves in the future)
+
+TO NOTE:
+    any sequance of checks, taking pieces will not be concidered the end of the calulations to ensure better evaluation of the position 
+    
+    this will be added to the nega max function later
+"""
+piece_value = {
+    "P": 1,
+    "N": 3,
+    "B": 3,
+    "R": 5,
+    "Q": 9,
+    "p": -1,
+    "n": -3,
+    "b": -3,
+    "r": -5,
+    "q": -9,
+
+}
+
+
+def Mevaluate(board):
+    "evaluate the current position of the board purely based on material advantage"
+    eval = 0
+    for i in board.fen():
+        eval += piece_value.get(i)
+    return eval
+
+
 if __name__ == "__main__":
     # create board object
     board = chess.Board()
