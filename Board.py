@@ -16,11 +16,13 @@ piece_value = {
     "B": 3,
     "R": 5,
     "Q": 9,
+    "K": 1000,
     "p": -1,
     "n": -3,
     "b": -3,
     "r": -5,
     "q": -9,
+    "k": -1000
 
 }
 
@@ -28,8 +30,9 @@ piece_value = {
 def Mevaluate(board):
     "evaluate the current position of the board purely based on material advantage"
     eval = 0
-    for i in board.fen():
-        eval += piece_value.get(i)
+    for i in board.fen().split()[0]:
+        if i in piece_value.keys():
+            eval += piece_value.get(i)
     return eval
 
 
@@ -43,6 +46,8 @@ if __name__ == "__main__":
 
     # display chess board
     print(board)
+
+    print(board.fen().split()[0])
 
     print(board.legal_moves)  # legal moves
 

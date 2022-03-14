@@ -9,8 +9,11 @@ def NegaMax(board, d, j=None):  # d for depth
         return evaluate(board)
 
     for i in range(d):
-        return max({board.push(j)(j, (-1**i) * NegaMax(board, d-1, j))
-                    for j in moveTree(board)}, key=lambda x: x[1])
+        for j in moveTree(board):
+            board.push(j)
+            Meval = {}
+            Meval[j] = (-1**i) * NegaMax(board, d-1, j)
+        return max(Meval, key=lambda x: x[1])
 
 
 def moveTree(board):
