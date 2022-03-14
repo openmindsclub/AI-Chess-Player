@@ -6,9 +6,9 @@ Basic evaluation function , going to count the material on each side and then ev
 at a certain depth (number of moves in the future)
 
 TO NOTE:
-    any sequance of checks, taking pieces will not be concidered the end of the calulations to ensure better evaluation of the position 
+    any sequance of checks, taking pieces will NOT be concidered the end of the calulations to ensure better evaluation of the position 
     
-    this will be added to the nega max function later
+    this will be added to the nega max function later inchallah
 """
 piece_value = {
     "P": 1,
@@ -33,6 +33,10 @@ def Mevaluate(board):
     return eval
 
 
+def evaluate(board):
+    return Mevaluate(board)
+
+
 if __name__ == "__main__":
     # create board object
     board = chess.Board()
@@ -42,10 +46,15 @@ if __name__ == "__main__":
 
     print(board.legal_moves)  # legal moves
 
+    print(list(board.legal_moves))  # legal moves
+
+    print(list(board.legal_moves)[0])  # legal moves
+
     # moving players
     board.push_san("e4")
     # It means moving the particular piece at
     # e place to 4th position
+    'h7h5'
 
     # Display chess board again to see changes
     print(board)
