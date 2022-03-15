@@ -1,5 +1,6 @@
 # main file
 from Board import *
+from Classes import *
 
 
 def NegaMax(board, d, j=None):  # d for depth
