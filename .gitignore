@@ -129,3 +129,7 @@ dmypy.json
 .pyre/
 # ignore any pycahce anywhere
 **/__pycache__
+
+# patch directory/files
+*.patch
+**/patch
