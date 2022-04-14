@@ -16,15 +16,30 @@ piece_value = {
     "B": 3,
     "R": 5,
     "Q": 9,
-    "K": 1000,
+    "K": 90,
     "p": -1,
     "n": -3,
     "b": -3,
     "r": -5,
     "q": -9,
-    "k": -1000
+    "k": -90
 
 }
+
+
+def readable_FEN(board):
+    FEN = [list(_) for _ in board.fen().split()[0].split("/")]
+    readable_fen = []
+    for rank in FEN:
+        t_rank = []
+
+        for i in rank:
+            if i.isdigit():
+                {t_rank.append("0") for j in range(int(i))}
+            else:
+                t_rank.append(i)
+        readable_fen.append(t_rank.copy())
+    return readable_fen
 
 
 def Mevaluate(board):
@@ -36,8 +51,34 @@ def Mevaluate(board):
     return eval
 
 
+def Pevaluate(board):
+    "evaluates the position based on positional advantage"
+    eval = 0
+    FEN = readable_FEN(board)
+
+    for rank in [4, 5]:
+        for file in [4, 5]:
+            if FEN[rank][file] == "p":
+                eval -= 0.1
+            if FEN[rank][file] == "P":
+                eval += 0.1
+
+    for rank, file in zip(range(3, 6), range(2, 7)):
+        if not FEN[rank][file].isdigit():
+            if FEN[rank][file].lower() == FEN[rank][file]:
+                eval -= 0.1
+            if FEN[rank][file].upper() == FEN[rank][file]:
+                eval += 0.1
+
+    return eval
+
+
+def moveTree(board):
+    return list(board.legal_moves)
+
+
 def evaluate(board):
-    return Mevaluate(board)
+    return Mevaluate(board)+Pevaluate(board)
 
 
 if __name__ == "__main__":
@@ -65,6 +106,7 @@ if __name__ == "__main__":
     print(board)
 
     # Verifying check mate
+    print("THIS IS THE CHECKMATE VALUE")
     print(board.is_checkmate())
     # helps to see if the game is a win or a draw
     # Verifying stalemate
@@ -81,3 +123,21 @@ if __name__ == "__main__":
     the position inchallah
     
     """
+    print("this part highlights the behavior of the material evaluation function")
+    print(Mevaluate(board))
+    board.push_san("d5")
+    board.push_san("exd5")
+    print(Mevaluate(board))
+    board.push_san("Qxd5")
+    print(Mevaluate(board))
+    board.push_san("d4")
+    board.push_san("Qxd4")
+    print(Mevaluate(board))
+    board.push_san("Qxd4")
+    print(Mevaluate(board))
+
+    print(board.fen().split())
+    print(readable_FEN(board))
+    print("______________________________________________________________")
+
+    print(Pevaluate(board))
